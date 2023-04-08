@@ -1,5 +1,11 @@
+import { useMatch, useParams } from "react-router-dom";
 import { HeadingElement } from "../../../../core/components/atoms";
 
-export const UserForm = () => {
-  return <HeadingElement>Formulário de Cadastro</HeadingElement>;
+interface UserFormProps {
+  uuid?: string;
+}
+
+export const UserForm = ({ uuid }: UserFormProps) => {
+  const { uuid: uuidParam } = useParams();
+  return <HeadingElement>Formulário de Cadastro {uuidParam}</HeadingElement>;
 };

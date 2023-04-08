@@ -1,37 +1,11 @@
+import { takeRight } from "lodash";
 import {
   BasicTable,
   Column,
 } from "../../../../core/components/atoms/BasicTable";
-import { GenericStatus } from "../../../../core/util/enum/EStatus";
-import { User } from "../../../../models/User.model";
-
-const userList: User[] = [
-  {
-    id: 1,
-    name: "Gaioba",
-    email: "gaioba@email.com",
-    status: GenericStatus.Active,
-  },
-  {
-    id: 2,
-    name: "Goiaba",
-    email: "goiaba@email.com",
-    status: GenericStatus.Active,
-  },
-  {
-    id: 3,
-    name: "Cleitinho",
-    email: "cleitinho@email.com",
-    status: GenericStatus.Active,
-  },
-];
+import { useGetAllUsers } from "../hooks/useUserService";
 
 const columnList: Column[] = [
-  {
-    name: "id",
-    label: "Id",
-    order: 1,
-  },
   {
     name: "name",
     label: "Nome",
@@ -50,5 +24,7 @@ const columnList: Column[] = [
 ];
 
 export const UserList = () => {
-  return <BasicTable data={userList} columns={columnList} />;
+  const { data: users, isLoading } = useGetAllUsers();
+  const list = takeRight(users, 10);
+  return <BasicTable data={list} columns={columnList} />;
 };
