@@ -2,10 +2,11 @@ import { createContext, useContext, useState } from "react";
 import { IAppContextData, IAppProviderProps } from "./types";
 import { OnBoardingLayout } from "../../components/templates";
 import { DefaultLayout } from "../../components/templates/DefaultLayout";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { getRoutes } from "../../util/helpers/routing";
 import { find } from "lodash";
 import { PrivateRoutes, PublicRoutes } from "../../../config/routing";
+import { Module, Page } from "../../types/Navigation";
 
 export const AppContext = createContext<IAppContextData>({} as IAppContextData);
 
@@ -13,7 +14,11 @@ export const AppProvider = ({ children }: IAppProviderProps) => {
   const location = useLocation();
   const privateRoutes = getRoutes({ private: true });
   const publicRoutes = getRoutes({ private: false });
-  const isPrivateRoutes = find(privateRoutes, { route: location.pathname });
+  const isPrivateRoutes = find(
+    privateRoutes,
+    (route) =>
+      location.pathname === route.route || route?.route?.includes("/edit/")
+  );
   const isPublicRoutes = find(publicRoutes, { route: location.pathname });
   const [signed, setSigned] = useState(true);
 

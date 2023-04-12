@@ -18,3 +18,12 @@ export const getPages = (filters: Module) => {
   const feature: Module = find(navigation, filters) as Module;
   return feature.pages as Page[];
 };
+
+export const isPrivateRoute = (pathname: string) => {
+  const routes = getRoutes({ private: true });
+  const route = find(routes, { route: pathname });
+
+  if (!route?.private) {
+    return false;
+  }
+};

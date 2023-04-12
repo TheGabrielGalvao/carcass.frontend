@@ -1,9 +1,10 @@
 import { GenericStatus } from "../core/util/enum/EStatus";
 
 export type User = {
-  id: number;
+  uuid: string;
   name: string;
   email: string;
   status: GenericStatus;
+  password?: string;
   permissions?: string;
 };
