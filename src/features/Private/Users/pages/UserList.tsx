@@ -1,9 +1,11 @@
 import { takeRight } from "lodash";
+import { useQuery, useQueryClient } from "react-query";
+import { HeadingElement } from "../../../../core/components/atoms";
 import {
   BasicTable,
   Column,
 } from "../../../../core/components/atoms/BasicTable";
-import { useGetAllUsers } from "../hooks/useUserService";
+import { getAllUsers } from "../actions/userActions";
 
 const columnList: Column[] = [
   {
@@ -24,7 +26,13 @@ const columnList: Column[] = [
 ];
 
 export const UserList = () => {
-  const { data: users, isLoading } = useGetAllUsers();
+  const { isLoading, data: users } = useQuery("users", getAllUsers);
+
   const list = takeRight(users, 10);
-  return <BasicTable data={list} columns={columnList} />;
+
+  return isLoading ? (
+    <HeadingElement size="md">Carregando...</HeadingElement>
+  ) : (
+    <BasicTable data={list} columns={columnList} />
+  );
 };

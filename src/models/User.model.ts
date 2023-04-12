@@ -5,5 +5,6 @@ export type User = {
   name: string;
   email: string;
   status: GenericStatus;
+  password?: string;
   permissions?: string;
 };

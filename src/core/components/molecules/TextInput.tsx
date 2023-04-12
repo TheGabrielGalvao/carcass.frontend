@@ -1,7 +1,8 @@
-import { ChangeEventHandler, ReactNode } from "react";
+import clsx from "clsx";
+import { ChangeEventHandler, HtmlHTMLAttributes, ReactNode } from "react";
 import { TextElement, TextInputElement } from "../atoms";
 
-interface TextInputProps {
+interface TextInputProps extends HtmlHTMLAttributes<HTMLInputElement> {
   type?: string;
   id?: string;
   name?: string;
@@ -23,9 +24,10 @@ export const TextInput = ({
   icon,
   register,
   helperText,
+  className,
 }: TextInputProps) => {
   return (
-    <label htmlFor={name} className="flex flex-col gap-2">
+    <label htmlFor={name} className={clsx("flex flex-col gap-2", className)}>
       <TextElement className="font-semibold">{label}</TextElement>
       <TextInputElement.Root>
         {icon && <TextInputElement.Icon>{icon}</TextInputElement.Icon>}

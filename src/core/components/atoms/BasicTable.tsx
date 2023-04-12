@@ -56,12 +56,7 @@ export const BasicTable = ({ columns, data }: BasicTableProps<any>) => {
                       >
                         <Pencil size={25} className="font-bold" />
                       </ButtonElement>
-                      <ButtonElement
-                        variant="danger"
-                        type="submit"
-                        onClick={() => navigate("../new")}
-                        className=""
-                      >
+                      <ButtonElement variant="danger" type="submit">
                         <Trash size={25} className="font-bold" />
                       </ButtonElement>
                     </td>

@@ -25,6 +25,7 @@
     "react-hook-form": "^7.43.7",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.9.0",
+    "react-uuid": "^2.0.0",
     "reflect-metadata": "^0.1.13",
     "yup": "^1.0.2"
   },

@@ -54,7 +54,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
     return data;
   }
 
-  async create(data: Omit<T, "uuid">): Promise<T> {
+  async create(data: T): Promise<T> {
     const response: AxiosResponse<T> = await api.post<T>(this.url, data);
     return response.data;
   }

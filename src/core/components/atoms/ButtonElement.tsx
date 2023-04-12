@@ -20,7 +20,7 @@ export const ButtonElement = ({
   return (
     <Comp
       className={clsx(
-        "py-3 px-4 rounded font-semibold text-sm transition-colors focus:ring-2 ring-blue-100",
+        "p-2 rounded font-semibold text-sm transition-colors focus:ring-2 ring-blue-100",
         {
           "bg-gray-400 text-black hover:bg-gray-400/80": variant === "default",
           "bg-blue-500 text-white hover:bg-blue-500/80": variant === "primary",
