@@ -14,7 +14,7 @@ export const SideMenu = () => {
   const [open, setOpen] = useState(false);
   const middleNav = getMenuByPosition(EPositionItemMenu.MIDDLE);
   const bottomNav = getMenuByPosition(EPositionItemMenu.BOTTOM).sort(
-    (a, b) => a.order - b.order
+    (a, b) => (a.order ?? 0) - (b.order ?? 0)
   );
   const { logout } = useAuth();
   return (

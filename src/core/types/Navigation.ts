@@ -26,7 +26,7 @@ export interface Module {
   pages?: Page[];
   exact?: boolean;
   position?: EPositionItemMenu;
-  order: number;
+  order?: number;
   initialPage?: string;
   private?: boolean;
   status?: ERouteStatus;
