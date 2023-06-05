@@ -1,92 +1,99 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "react-query";
+import React from "react";
+import { UserModel } from "../../../../models/User.model";
+import UserService from "../../../../services/UserService";
 import { useNavigate, useParams } from "react-router-dom";
-import uuid from "react-uuid";
-import { ButtonElement } from "../../../../core/components/atoms";
+import { useQuery, useQueryClient } from "react-query";
+import {
+  ButtonElement,
+  CardElement,
+  HeadingElement,
+} from "../../../../core/components/atoms";
+import { BaseForm } from "../../../../core/components/molecules/BaseForm";
 import { TextInput } from "../../../../core/components/molecules";
-import { GenericStatus } from "../../../../core/util/enum/EStatus";
-import { User } from "../../../../models/User.model";
-import { createUser, updateUser } from "../actions/userActions";
-import { userValidation } from "../validations";
+import { userValidation } from "../../Users/validations";
+import { ERegisterStatus } from "../../../../core/util/enum/EStatus";
 
-interface UserFormProps {}
-
-export const UserForm = ({}: UserFormProps) => {
-  const { uuid: uuidUser } = useParams();
-  const queryClient = useQueryClient();
+export const UserForm = () => {
   const navigate = useNavigate();
-
-  const createUserMutation = useMutation(createUser, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("users");
-    },
+  const queryClient = useQueryClient();
+  const { uuid } = useParams();
+  const { data: userData } = useQuery(["user", uuid], UserService.find, {
+    retry: false,
+    enabled: uuid !== null && uuid !== "",
+    refetchOnWindowFocus: false,
   });
 
-  const updateUserMutation = useMutation(updateUser, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("users");
-    },
-  });
-
-  const {
-    formState: { errors },
-    handleSubmit,
-    register,
-  } = useForm<User>({
-    resolver: yupResolver(userValidation),
-    defaultValues: {},
-  });
-
-  const handleSubmitUser = async (data: User) => {
-    console.log(data);
-    if (uuidUser) {
-      const objectSave: User = {
+  const handleSubmitUser = async (data: UserModel) => {
+    if (uuid) {
+      const objectSave: UserModel = {
         ...data,
-        uuid: uuidUser,
-        status: GenericStatus.Active,
+        profileUuid: userData?.profileUuid,
       };
-      await updateUserMutation.mutateAsync(objectSave);
+      await UserService.update(uuid, objectSave);
     } else {
-      console.log(data);
-      const objectSave: User = {
+      const objectSave: UserModel = {
         ...data,
-        uuid: uuid(),
-        status: GenericStatus.Active,
+        status: ERegisterStatus.ACTIVE,
+        profileUuid: "3F7EBD24-C159-4951-A49B-14702DEFBADC",
       };
-      await createUserMutation.mutateAsync(objectSave);
+      await UserService.create(objectSave);
     }
+    queryClient.invalidateQueries(["list-users"]);
+
     navigate("../list");
   };
 
   return (
-    <form
-      className="flex flex-col items-center justify-center w-full  gap-4 "
-      onSubmit={handleSubmit(handleSubmitUser)}
-    >
-      <TextInput
-        type="text"
-        id="name"
-        name="name"
-        label="Nome"
-        placeholder="Nome"
-        className="w-96"
-        register={register("name")}
-        helperText={errors.name?.message}
-      />
-      <TextInput
-        type="text"
-        id="email"
-        name="email"
-        label="Senha"
-        placeholder="Email"
-        className="w-96"
-        register={register("email")}
-        helperText={errors.email?.message}
-      />
-      <ButtonElement variant="primary" type="submit" className="w-full">
-        Salvar
-      </ButtonElement>
-    </form>
+    <CardElement>
+      <div className="flex w-full flex-col gap-4 py-4 px-10">
+        <HeadingElement>Formulário de Cadastro</HeadingElement>
+        <BaseForm
+          onSubmit={handleSubmitUser}
+          validationSchema={userValidation}
+          defaultValues={userData}
+          className="flex flex-col items-center justify-center w-full gap-4 px-10"
+        >
+          <div className="flex gap-2 w-full items-center justify-center">
+            <TextInput
+              type="text"
+              id="name"
+              name="name"
+              label="Nome"
+              placeholder="Nome"
+              className="w-full placeholder:text-gray-900 text-gray-900"
+            />
+            <TextInput
+              type="text"
+              id="email"
+              name="email"
+              label="Email"
+              placeholder="Email"
+              className="w-full"
+            />
+            <TextInput
+              type="password"
+              id="password"
+              name="password"
+              label="Senha"
+              placeholder="Senha"
+              className="w-full"
+            />
+          </div>
+          <div className="flex gap-2 w-full items-center justify-center"></div>
+          <div className="flex justify-end w-full gap-2">
+            <ButtonElement
+              variant="default"
+              type="button"
+              onClick={() => navigate("../list")}
+            >
+              Cancelar
+            </ButtonElement>
+            <ButtonElement variant="primary" type="submit" className="">
+              Salvar
+            </ButtonElement>
+          </div>
+        </BaseForm>
+      </div>
+    </CardElement>
   );
 };

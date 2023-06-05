@@ -1,10 +1,10 @@
-import { GenericStatus } from "../core/util/enum/EStatus";
+import { ERegisterStatus } from "../core/util/enum/EStatus";
 
-export type User = {
+export type UserModel = {
   uuid: string;
   name: string;
   email: string;
-  status: GenericStatus;
-  password?: string;
-  permissions?: string;
+  password: string;
+  status: ERegisterStatus;
+  profileUuid?: string;
 };

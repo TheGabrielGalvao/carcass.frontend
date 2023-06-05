@@ -12,7 +12,7 @@ export const contactRoutes = {
   order: 2,
   position: EPositionItemMenu.MIDDLE,
   route: "/contacts",
-  element: <CrudFeature title="Contatos" />,
+  element: <CrudFeature />,
   private: true,
   pages: [
     {
@@ -21,6 +21,14 @@ export const contactRoutes = {
       route: "/contacts/new",
       element: <ContactForm />,
       private: true,
+    },
+    {
+      id: 61,
+      name: "edit",
+      route: "/contacts/edit/:uuid",
+      element: <ContactForm />,
+      private: true,
+      exact: false,
     },
     {
       id: 61,

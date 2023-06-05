@@ -107,6 +107,7 @@ const SidebarNavSectionItemRoute = ({
   className,
   open,
   itemMenu,
+  onClick,
 }: NavbarSectionItemRouteProps) => {
   return (
     <li
@@ -130,12 +131,13 @@ const SidebarNavSectionItemRoute = ({
             "text-grey-500 bg-transparent": isPending,
           })
         }
+        onClick={onClick}
       >
         <>
           {itemMenu?.icon}
           <TextElement
             asChild={false}
-            className={clsx("origin-left duration-200", {
+            className={clsx("origin-left duration-200 text-inherit", {
               hidden: !open,
               block: open,
             })}

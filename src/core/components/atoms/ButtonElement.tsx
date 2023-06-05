@@ -20,14 +20,17 @@ export const ButtonElement = ({
   return (
     <Comp
       className={clsx(
-        "p-2 rounded font-semibold text-sm transition-colors focus:ring-2 ring-blue-100",
+        "p-2 rounded text-sm transition-colors focus:ring-2 ring-blue-100 shadow-md",
         {
-          "bg-gray-400 text-black hover:bg-gray-400/80": variant === "default",
-          "bg-blue-500 text-white hover:bg-blue-500/80": variant === "primary",
-          "bg-green-500 text-white hover:bg-green-500/80":
+          "bg-none text-gray-600 border border-gray-600 hover:text-gray-400":
+            variant === "default",
+          "bg-blue-500 text-white hover:bg-blue-500/80 shadow-blue-500/50":
+            variant === "primary",
+          "bg-green-500 text-white hover:bg-green-500/80 shadow-green-500/50":
             variant === "success",
-          "bg-red-500 text-white hover:bg-red-500/80": variant === "danger",
-          "bg-yellow-500 text-black hover:bg-yellow-500/80":
+          "bg-red-500 text-white hover:bg-red-500/80 shadow-red-500/50":
+            variant === "danger",
+          "bg-yellow-500 text-gray-600 hover:bg-yellow-500/80 shadow-yellow-500/50":
             variant === "warning",
         },
         className

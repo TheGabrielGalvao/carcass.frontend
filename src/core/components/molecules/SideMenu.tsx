@@ -1,19 +1,22 @@
 import clsx from "clsx";
-import { Alien, CaretRight, TiktokLogo } from "phosphor-react";
+import { Alien, CaretRight, SignIn, TiktokLogo } from "phosphor-react";
 import { useState } from "react";
 import { EPositionItemMenu } from "../../types/Navigation";
 // import { useAuth } from "../../contexts/AuthContext"
 import { getMenuByPosition } from "../../util/helpers/ui";
 import { LogoElement, SidebarElement, TextElement } from "../atoms";
 import logo from "../../../assets/img/logo-v1.png";
+import { useAuth } from "../../context/AuthContext";
 
 export interface SideMenuProps {}
 
 export const SideMenu = () => {
   const [open, setOpen] = useState(false);
   const middleNav = getMenuByPosition(EPositionItemMenu.MIDDLE);
-  const bottomNav = getMenuByPosition(EPositionItemMenu.BOTTOM);
-  // const {handleSignOut} = useAuth()
+  const bottomNav = getMenuByPosition(EPositionItemMenu.BOTTOM).sort(
+    (a, b) => a.order - b.order
+  );
+  const { logout } = useAuth();
   return (
     <SidebarElement.Root open={open}>
       <SidebarElement.Nav open={open}>
@@ -82,6 +85,21 @@ export const SideMenu = () => {
               itemMenu={item}
             />
           ))}
+          <SidebarElement.NavSectionItemRoute
+            key={25}
+            open={open}
+            itemMenu={{
+              id: 4,
+              route: "/login",
+              name: "logout",
+              label: "Sair",
+              position: EPositionItemMenu.BOTTOM,
+              order: 6,
+              icon: <SignIn />,
+              private: false,
+            }}
+            onClick={logout}
+          />
         </SidebarElement.NavSection>
       </SidebarElement.Nav>
     </SidebarElement.Root>

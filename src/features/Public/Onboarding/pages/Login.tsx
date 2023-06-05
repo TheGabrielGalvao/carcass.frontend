@@ -4,30 +4,32 @@ import { useForm } from "react-hook-form";
 import { userSignInValidation } from "../validations";
 import { TextInput } from "../../../../core/components/molecules";
 import { ButtonElement } from "../../../../core/components/atoms";
-
-export interface SigninForm {
-  email: string;
-  password: string;
-}
+import { useAuth } from "../../../../core/context/AuthContext";
+import { AuthModel } from "../../../../models/Auth.model";
 
 export const Login = () => {
   const {
     formState: { errors },
     handleSubmit,
     register,
-  } = useForm<SigninForm>({
+  } = useForm<AuthModel>({
     resolver: yupResolver(userSignInValidation),
     defaultValues: {},
   });
 
-  const handleSubmitUser = async (data: SigninForm) => {
+  const { login } = useAuth();
+  const handleSubmitUser = async (data: AuthModel) => {
     const dataSave = {
-      email: data?.email ?? "",
+      name: data.name,
       password: data.password,
     };
-    if (dataSave.email.length > 2) {
-      console.log(dataSave);
-    }
+    // {
+    //   name: "gabriel",
+    //   email: data?.email ?? "",
+    //   password: data.password,
+    // };
+
+    await login(dataSave);
   };
 
   return (
@@ -38,13 +40,13 @@ export const Login = () => {
     >
       <TextInput
         type="text"
-        id="email"
-        name="email"
-        label="Email"
-        placeholder="Digite o seu Email"
+        id="name"
+        name="name"
+        label="Nome"
+        placeholder="Digite o seu Nome"
         icon={<Envelope />}
-        register={register("email")}
-        helperText={errors.email?.message}
+        register={register("name")}
+        helperText={errors.name?.message}
       />
       <TextInput
         type="password"

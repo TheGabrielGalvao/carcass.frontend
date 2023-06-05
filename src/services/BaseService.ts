@@ -1,6 +1,8 @@
 import { AxiosResponse } from "axios";
 import { Params } from "react-router-dom";
 import { api } from "../config/api";
+import { QueryFunctionContext } from "react-query";
+import { isQueryKey } from "react-query/types/core/utils";
 
 interface IBaseService<T> {
   getUrl(): string;
@@ -27,9 +29,9 @@ export type TableParams<T> = {
 
 export abstract class BaseService<T> implements IBaseService<T> {
   private url: string;
-  private paramId: keyof T;
+  private paramId?: keyof T;
 
-  constructor(url: string, paramId: keyof T) {
+  constructor(url: string, paramId?: keyof T) {
     this.url = url;
     this.paramId = paramId;
   }
@@ -37,7 +39,14 @@ export abstract class BaseService<T> implements IBaseService<T> {
   getUrl = () => this.url;
 
   getParamId(): keyof T {
-    return this.paramId;
+    return this.paramId as keyof T;
+  }
+
+  private getHeaders(): Record<string, string> {
+    const token = localStorage.getItem("token");
+    return {
+      Authorization: `Bearer ${token}`,
+    };
   }
 
   beforeSave = async ({ data }: BeforeSaveParams<T>): Promise<T> => {
@@ -45,7 +54,9 @@ export abstract class BaseService<T> implements IBaseService<T> {
   };
 
   async getAll(): Promise<T[]> {
-    const { data } = await api.get<T[]>(this.url);
+    const { data } = await api.get<T[]>(this.url, {
+      headers: this.getHeaders(),
+    });
     return data;
   }
 
@@ -54,20 +65,32 @@ export abstract class BaseService<T> implements IBaseService<T> {
     return data;
   }
 
+  find = async ({ queryKey }: QueryFunctionContext): Promise<T> => {
+    const uuid = queryKey[1] as string;
+
+    const { data } = await api.get<T>(`${this.url}/${uuid}`, {
+      headers: this.getHeaders(),
+    });
+    return data;
+  };
+
   async create(data: T): Promise<T> {
-    const response: AxiosResponse<T> = await api.post<T>(this.url, data);
+    const response: AxiosResponse<T> = await api.post<T>(this.url, data, {
+      headers: this.getHeaders(),
+    });
     return response.data;
   }
 
   async update(uuid: string, data: T): Promise<T> {
     const response: AxiosResponse<T> = await api.put<T>(
       `${this.url}/${uuid}`,
-      data
+      data,
+      { headers: this.getHeaders() }
     );
     return response.data;
   }
 
   async remove(uuid: string): Promise<void> {
-    await api.delete(`${this.url}/${uuid}`);
+    await api.delete(`${this.url}/${uuid}`, { headers: this.getHeaders() });
   }
 }

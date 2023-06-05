@@ -13,3 +13,15 @@ export const GenericStatusIndex: GenericStatusIndexable = {
   2: GenericStatus.Active,
   3: GenericStatus.Inactive,
 };
+
+export enum ERegisterStatus {
+  UNCOMPLETED = 0,
+  ACTIVE = 1,
+  INACTIVE = 2,
+}
+
+export const ERegisterStatusLabels = {
+  UNCOMPLETED: "Incompleto",
+  ACTIVE: "Ativo",
+  INACTIVE: "Inativo",
+};

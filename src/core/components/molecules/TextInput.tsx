@@ -27,7 +27,10 @@ export const TextInput = ({
   className,
 }: TextInputProps) => {
   return (
-    <label htmlFor={name} className={clsx("flex flex-col gap-2", className)}>
+    <label
+      htmlFor={name}
+      className={clsx("flex flex-col gap-2 h-24", className)}
+    >
       <TextElement className="font-semibold">{label}</TextElement>
       <TextInputElement.Root>
         {icon && <TextInputElement.Icon>{icon}</TextInputElement.Icon>}

@@ -1,38 +1,68 @@
 import { takeRight } from "lodash";
+import { Column } from "../../../../core/components/atoms/BasicTable";
 import { useQuery, useQueryClient } from "react-query";
-import { HeadingElement } from "../../../../core/components/atoms";
-import {
-  BasicTable,
-  Column,
-} from "../../../../core/components/atoms/BasicTable";
-import { getAllUsers } from "../actions/userActions";
-
-const columnList: Column[] = [
-  {
-    name: "name",
-    label: "Nome",
-    order: 2,
-  },
-  {
-    name: "email",
-    label: "Email",
-    order: 3,
-  },
-  {
-    name: "status",
-    label: "Status",
-    order: 4,
-  },
-];
+import { CardElement, HeadingElement } from "../../../../core/components/atoms";
+import ContactService from "../../../../services/ContactService";
+import { CrudTable } from "../../../../core/components/molecules/CrudTable";
+import { StatusBody } from "../../../../core/components/templates/data/StatusBodyTemplate";
+import UserService from "../../../../services/UserService";
+import { useNavigate } from "react-router-dom";
 
 export const UserList = () => {
-  const { isLoading, data: users } = useQuery("users", getAllUsers);
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const { isLoading, data: contacts } = useQuery("list-users", () =>
+    UserService.getAll()
+  );
 
-  const list = takeRight(users, 10);
+  const list = takeRight(contacts, 10);
 
-  return isLoading ? (
-    <HeadingElement size="md">Carregando...</HeadingElement>
-  ) : (
-    <BasicTable data={list} columns={columnList} />
+  const columnList: Column[] = [
+    {
+      name: "name",
+      label: "Nome",
+      sortable: true,
+      order: 2,
+    },
+    {
+      name: "email",
+      label: "Email",
+      sortable: true,
+      order: 3,
+    },
+    {
+      name: "status",
+      label: "Status",
+      sortable: true,
+      order: 4,
+      bodyShape: StatusBody,
+    },
+  ];
+
+  const handleDelete = async (uuid: string) => {
+    if (!uuid) {
+      return;
+    }
+
+    await UserService.remove(uuid);
+    queryClient.invalidateQueries("list-users");
+
+    navigate("../list");
+  };
+
+  return (
+    <CardElement>
+      {isLoading ? (
+        <HeadingElement size="md">Carregando...</HeadingElement>
+      ) : (
+        <CrudTable
+          title="Listagem de Usuários"
+          legend="Veja informações de seus usuários"
+          data={list}
+          columns={columnList}
+          deleteFunction={handleDelete}
+        />
+      )}
+    </CardElement>
   );
 };

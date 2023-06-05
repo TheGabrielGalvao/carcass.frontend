@@ -1,7 +1,7 @@
 import * as yup from "yup";
-import { User } from "../../../models/User.model";
+import { UserModel } from "../../../models/User.model";
 
-export const userValidation = yup.object<User>().shape({
+export const userValidation = yup.object<UserModel>().shape({
   name: yup.string().required(() => "Obrigatório"),
   email: yup
     .string()
