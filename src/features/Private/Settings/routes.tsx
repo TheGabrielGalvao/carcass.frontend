@@ -1,5 +1,4 @@
 import { Gear } from "phosphor-react";
-import { BusinessFeature } from "../../../core/components/templates/BusinessFeature";
 import { GenericPage } from "../../../core/components/templates/GenericPage";
 import {
   EPositionItemMenu,
