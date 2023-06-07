@@ -9,3 +9,4 @@ export * from "./TextareaElement";
 export * from "./CheckboxElement";
 export * from "./CardElement";
 export * from "./AvatarElement";
+export * from "./BreadCrumbs";

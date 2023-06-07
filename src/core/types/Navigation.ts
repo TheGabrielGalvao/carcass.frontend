@@ -5,6 +5,7 @@ export interface Page {
   id: number;
   name: string;
   label?: string;
+  showInFeatureMenu?: boolean;
   element?: ReactNode;
   icon?: React.ComponentType<IconProps> | ReactNode;
   position?: EPositionItemMenu;

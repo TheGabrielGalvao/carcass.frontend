@@ -1,1 +1,1 @@
-export { OnBoardingLayout } from './OnBoardingLayout';
+export { OnBoardingLayout } from "./OnBoardingLayout";

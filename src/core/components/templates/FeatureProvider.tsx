@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { BreadCrumbs, HeadingElement } from "../../../core/components/atoms";
-import { FeatureMenu } from "../../../core/components/molecules/FeatureMenu";
+import { BreadCrumbs, HeadingElement } from "../atoms";
+import { FeatureMenu } from "../molecules/FeatureMenu";
 
-interface BusinessFeatureProps {
+interface FeatureProviderProps {
   title?: string;
   rootPath: string;
   initialPath?: string;
 }
 
-export const BusinessFeature = ({
-  title,
+export const FeatureProvider = ({
   rootPath,
   initialPath,
-}: BusinessFeatureProps) => {
+}: FeatureProviderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -22,11 +21,11 @@ export const BusinessFeature = ({
       navigate(initialPath);
     }
   }, [location.pathname]);
+
   return (
-    <div className="flex flex-col w-full pt-4 px-4 gap-5 overflow-y-hidden">
-      <div className="flex w-full justify-between items-center overflow-y-hidden">
-        {/* <HeadingElement size="lg">{title}</HeadingElement> */}
-        <BreadCrumbs />
+    <div className="flex flex-col w-full px-4 gap-3 overflow-y-hidden">
+      <div className="flex w-full justify-between pb-2 items-center overflow-y-hidden border border-b-gray-300">
+        <BreadCrumbs route={rootPath} />
         <FeatureMenu route={rootPath} />
       </div>
       <div className="flex flex-col h-full overflow-y-hidden">

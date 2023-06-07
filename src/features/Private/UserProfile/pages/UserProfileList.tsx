@@ -2,17 +2,16 @@ import { takeRight } from "lodash";
 import { Column } from "../../../../core/components/atoms/BasicTable";
 import { useQuery, useQueryClient } from "react-query";
 import { CardElement, HeadingElement } from "../../../../core/components/atoms";
-import ContactService from "../../../../services/ContactService";
 import { CrudTable } from "../../../../core/components/molecules/CrudTable";
 import { StatusBody } from "../../../../core/components/templates/data/StatusBodyTemplate";
-import UserService from "../../../../services/UserService";
+import UserProfileService from "../../../../services/UserProfileService";
 import { useNavigate } from "react-router-dom";
 
-export const UserList = () => {
+export const UserProfileList = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { isLoading, data: contacts } = useQuery("list-users", () =>
-    UserService.getAll()
+  const { isLoading, data: contacts } = useQuery("list-userProfiles", () =>
+    UserProfileService.getAll()
   );
 
   const list = takeRight(contacts, 10);
@@ -23,12 +22,6 @@ export const UserList = () => {
       label: "Nome",
       sortable: true,
       order: 2,
-    },
-    {
-      name: "email",
-      label: "Email",
-      sortable: true,
-      order: 3,
     },
     {
       name: "status",
@@ -44,10 +37,10 @@ export const UserList = () => {
       return;
     }
 
-    await UserService.remove(uuid);
-    queryClient.invalidateQueries("list-users");
+    await UserProfileService.remove(uuid);
+    queryClient.invalidateQueries("list-userProfiles");
 
-    navigate("../list");
+    // navigate("../profile/list");
   };
 
   return (
@@ -56,10 +49,11 @@ export const UserList = () => {
         <HeadingElement size="md">Carregando...</HeadingElement>
       ) : (
         <CrudTable
-          title="Listagem de Usuários"
-          legend="Veja informações de seus usuários"
+          title="Listagem de Perfil de Acesso"
+          legend="Veja informações de seus perfis"
           data={list}
           columns={columnList}
+          routePrefix="profile"
           deleteFunction={handleDelete}
         />
       )}

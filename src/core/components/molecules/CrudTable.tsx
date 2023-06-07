@@ -9,6 +9,7 @@ interface CrudTableProps {
   columns: Column[];
   data?: any[];
   deleteFunction: (uuid: string) => void;
+  routePrefix?: string;
 }
 
 export const CrudTable = ({
@@ -17,9 +18,9 @@ export const CrudTable = ({
   data,
   columns,
   deleteFunction,
+  routePrefix,
 }: CrudTableProps) => {
   const navigate = useNavigate();
-
   return (
     <div className="flex flex-col w-full">
       <div className="flex max-w-full gap-4 justify-between items-center py-4 px-10">
@@ -42,7 +43,9 @@ export const CrudTable = ({
           <ButtonElement
             variant="primary"
             type="button"
-            onClick={() => navigate("../new")}
+            onClick={() =>
+              navigate(`${routePrefix ? `../${routePrefix}/new` : "../new"}`)
+            }
             className="flex justify-center items-center gap-1 text-sm px-3"
           >
             <Plus size={16} className="font-bold" weight="bold" />
@@ -62,7 +65,15 @@ export const CrudTable = ({
                 size={25}
                 className="cursor-pointer text-blue-500"
                 weight="fill"
-                onClick={() => navigate(`../edit/${item.uuid}`)}
+                onClick={() =>
+                  navigate(
+                    `${
+                      routePrefix
+                        ? `../${routePrefix}/edit/${item.uuid}`
+                        : `../edit/${item.uuid}`
+                    }`
+                  )
+                }
               />
               <Trash
                 size={25}

@@ -7,7 +7,7 @@ export interface DefaultLayoutProps extends BaseComponentProps {}
 
 export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <div>
+    <div className="overflow-y-hidden max-h-screen">
       {/* <ToastElement
         message="Registro salvo com Sucesso"
         icon={<Check size={20} weight="bold" />}

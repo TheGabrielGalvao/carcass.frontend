@@ -1,10 +1,11 @@
 import { CurrencyDollarSimple } from "phosphor-react";
-import { BusinessFeature } from "../../../core/components/templates/BusinessFeature";
 import { GenericPage } from "../../../core/components/templates/GenericPage";
-import { EPositionItemMenu } from "../../../core/types/Navigation";
+import { EPositionItemMenu, Module } from "../../../core/types/Navigation";
 import { Faturamento } from "./pages/Faturamento";
+import { Dashboard } from "./pages/Dashboard";
+import { FeatureProvider } from "../../../core/components/templates/FeatureProvider";
 
-export const financialRoutes = {
+export const financialRoutes: Module = {
   id: 3,
   name: "finance",
   label: "Financeiro",
@@ -13,7 +14,7 @@ export const financialRoutes = {
   position: EPositionItemMenu.MIDDLE,
   route: "/financial",
   element: (
-    <BusinessFeature
+    <FeatureProvider
       title="Financeiro"
       rootPath="/financial"
       initialPath="dashboard"
@@ -26,13 +27,15 @@ export const financialRoutes = {
       name: "dashboard",
       route: "/financial/dashboard",
       label: "Dashboard",
-      element: <GenericPage text="Dashboard" />,
+      showInFeatureMenu: true,
+      element: <Dashboard />,
       private: true,
     },
     {
       id: 51,
       name: "pagarreceber",
       route: "/financial/pagarreceber",
+      showInFeatureMenu: true,
       label: "Contas a pagar/receber",
       element: <GenericPage text="Contas a pagar/receber" />,
       private: true,
@@ -41,6 +44,7 @@ export const financialRoutes = {
       id: 52,
       name: "despesareceita",
       route: "/financial/despesareceita",
+      showInFeatureMenu: true,
       label: "Despesa/Receita",
       element: <GenericPage text="Despesa/Receita" />,
       private: true,
@@ -49,6 +53,7 @@ export const financialRoutes = {
       id: 53,
       name: "faturamento",
       route: "/financial/faturamento",
+      showInFeatureMenu: true,
       label: "Faturamento",
       element: <Faturamento />,
       private: true,

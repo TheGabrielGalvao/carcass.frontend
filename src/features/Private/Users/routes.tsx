@@ -1,8 +1,9 @@
 import { UsersThree } from "phosphor-react";
-import { CrudFeature } from "../../../core/components/templates/CrudFeature";
 import { EPositionItemMenu, Module } from "../../../core/types/Navigation";
 import { UserForm } from "./pages/UserForm";
 import { UserList } from "./pages/UserList";
+import { FeatureProvider } from "../../../core/components/templates/FeatureProvider";
+import { userProfileRoutes } from "../UserProfile/routes";
 
 export const userRoutes: Module = {
   id: 8,
@@ -12,19 +13,27 @@ export const userRoutes: Module = {
   order: 2,
   position: EPositionItemMenu.MIDDLE,
   route: "/users",
-  element: <CrudFeature title="Usuários" />,
+  element: (
+    <FeatureProvider
+      title="Usuários"
+      rootPath="/users"
+      initialPath="/users/list"
+    />
+  ),
   private: true,
   pages: [
     {
       id: 60,
-      name: "new",
+      name: "new-user",
+      label: "Novo",
       route: "/users/new",
       element: <UserForm />,
       private: true,
     },
     {
       id: 61,
-      name: "edit",
+      name: "edit-user",
+      label: "Editar",
       route: "/users/edit/:uuid",
       element: <UserForm />,
       private: true,
@@ -32,10 +41,14 @@ export const userRoutes: Module = {
     },
     {
       id: 62,
-      name: "list",
+      name: "list-user",
+      label: "Usuários",
+      showInFeatureMenu: true,
       route: "/users/list",
       element: <UserList />,
       private: true,
     },
+
+    ...userProfileRoutes,
   ],
 };

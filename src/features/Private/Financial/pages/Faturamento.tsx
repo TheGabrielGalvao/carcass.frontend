@@ -1,5 +1,9 @@
-import { HeadingElement } from "../../../../core/components/atoms";
+import { CardElement, HeadingElement } from "../../../../core/components/atoms";
 
 export const Faturamento = () => {
-  return <HeadingElement>Faturamento</HeadingElement>;
+  return (
+    <CardElement className="w-full h-full">
+      <HeadingElement>Faturamento</HeadingElement>
+    </CardElement>
+  );
 };

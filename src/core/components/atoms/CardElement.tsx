@@ -1,11 +1,17 @@
-import { BaseComponentProps } from "./types"
+import clsx from "clsx";
+import { BaseComponentProps } from "./types";
 
 export interface CardElementProps extends BaseComponentProps {}
 
-export const CardElement = ({children}: CardElementProps) => {
-  return(
-    <div className="flex w-full bg-white p-4 rounded-2xl overflow-hidden">
+export const CardElement = ({ children, className }: CardElementProps) => {
+  return (
+    <div
+      className={clsx(
+        "flex w-full bg-white p-4 rounded-2xl overflow-hidden",
+        className
+      )}
+    >
       {children}
     </div>
-  )
- }
+  );
+};

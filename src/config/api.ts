@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://localhost:7157/api/v1",
+  baseURL: "http://testegabrielgalvao.com.iron.hostazul.com.br/api/v1",
 });

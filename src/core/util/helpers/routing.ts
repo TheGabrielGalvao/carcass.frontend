@@ -19,6 +19,11 @@ export const getPages = (filters: Module) => {
   return feature.pages as Page[];
 };
 
+export const getRouteInfo = (filters: Module) => {
+  const feature: Module = find(navigation, filters) as Module;
+  return feature;
+};
+
 export const isPrivateRoute = (pathname: string) => {
   const routes = getRoutes({ private: true });
   const route = find(routes, { route: pathname });
