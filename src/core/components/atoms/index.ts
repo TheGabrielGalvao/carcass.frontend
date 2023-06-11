@@ -10,3 +10,4 @@ export * from "./CheckboxElement";
 export * from "./CardElement";
 export * from "./AvatarElement";
 export * from "./BreadCrumbs";
+export * from "./SelectInputElement";

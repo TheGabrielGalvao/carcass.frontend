@@ -7,7 +7,10 @@ import { getRoutes } from "../../util/helpers/routing";
 import { find } from "lodash";
 import { PrivateRoutes, PublicRoutes } from "../../../config/routing";
 import { Module, Page } from "../../types/Navigation";
-import { ToastElement } from "../../components/atoms/ToastElement";
+import {
+  ToastElement,
+  ToastElementProps,
+} from "../../components/atoms/ToastElement";
 
 export const AppContext = createContext<IAppContextData>({} as IAppContextData);
 
@@ -21,10 +24,19 @@ export const AppProvider = ({ children }: IAppProviderProps) => {
       location.pathname === route.route || route?.route?.includes("/edit/")
   );
   const isPublicRoutes = find(publicRoutes, { route: location.pathname });
+  const [toast, setToast] = useState<ToastElementProps>();
   const [signed, setSigned] = useState(true);
 
+  const handleSetToast = (config?: ToastElementProps): void => {
+    setToast({
+      ...config,
+      type: config?.type,
+      show: !toast?.show ?? false,
+    });
+  };
+
   return (
-    <AppContext.Provider value={{}}>
+    <AppContext.Provider value={{ handleSetToast, toast }}>
       {isPublicRoutes && (
         <OnBoardingLayout
           headerText="Gestão"

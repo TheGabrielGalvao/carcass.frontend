@@ -1,5 +1,11 @@
 import clsx from "clsx";
-import { Alien, CaretRight, SignIn, TiktokLogo } from "phosphor-react";
+import {
+  Alien,
+  CaretRight,
+  SignIn,
+  SketchLogo,
+  TiktokLogo,
+} from "phosphor-react";
 import { useState } from "react";
 import { EPositionItemMenu } from "../../types/Navigation";
 // import { useAuth } from "../../contexts/AuthContext"
@@ -22,42 +28,50 @@ export const SideMenu = () => {
       <SidebarElement.Nav open={open}>
         <CaretRight
           className={clsx(
-            "absolute cursor-pointer -right-3 top-5  bg-blue-500 text-white border-2 rounded-full",
+            "absolute cursor-pointer -right-3 top-5  bg-blue-500 text-white border-2 border-white rounded-full",
             {
               "rotate-180": open,
             }
           )}
+          weight="bold"
           size={25}
           onClick={() => setOpen(!open)}
         />
         <SidebarElement.NavSection open={open} className="flex items-center">
           <SidebarElement.NavSectionItem
             open={open}
-            className=" hover:bg-transparent hover:text-gray-400"
+            className={clsx(
+              {
+                "bg-transparent hover:bg-transparent": open,
+              },
+              " bg-blue-500 hover:bg-blue-500/80"
+            )}
             icon={
               <LogoElement
-                className={clsx("cursor-pointer duration-500 text-white", {
-                  "rotate-[360deg]": open,
+                className={clsx("cursor-pointer duration-500  ", {
+                  "rotate-[360deg] bg-transparent text-blue-500": open,
+                  "text-white": !open,
                 })}
               >
-                {/* <Alien /> */}
-                <img className="" src={logo} alt="" />
+                <SketchLogo />
+                {/* <img className="" src={logo} alt="" /> */}
               </LogoElement>
             }
-            // label={
-            //   <TextElement>
-            //     <h1
-            //       className={clsx(
-            //         "text-black origin-left text-md duration-200",
-            //         {
-            //           "scale-0": !open,
-            //         }
-            //       )}
-            //     >
-            //       Sistema
-            //     </h1>
-            //   </TextElement>
-            // }
+            label={
+              <TextElement>
+                <h1
+                  className={clsx(
+                    "text-gray-700 origin-left text-md duration-200 bg-transparent",
+                    {
+                      "scale-0 ": !open,
+                      "hover:text-gray-700/80": open,
+                    }
+                  )}
+                >
+                  Sistema
+                </h1>
+              </TextElement>
+            }
           />
         </SidebarElement.NavSection>
 

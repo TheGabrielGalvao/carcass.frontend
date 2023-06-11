@@ -2,10 +2,11 @@ import { AxiosResponse } from "axios";
 import { Params } from "react-router-dom";
 import { api } from "../config/api";
 import { QueryFunctionContext } from "react-query";
-import { isQueryKey } from "react-query/types/core/utils";
+import { OptionItem } from "../core/types/Option";
 
 interface IBaseService<T> {
   getUrl(): string;
+  getHeaders(): Record<string, string>;
   getParamId(): keyof T;
   getAll(): Promise<T[]>;
   getById(uuid: string): Promise<T>;
@@ -42,12 +43,12 @@ export abstract class BaseService<T> implements IBaseService<T> {
     return this.paramId as keyof T;
   }
 
-  private getHeaders(): Record<string, string> {
+  getHeaders = (): Record<string, string> => {
     const token = localStorage.getItem("token");
     return {
       Authorization: `Bearer ${token}`,
     };
-  }
+  };
 
   beforeSave = async ({ data }: BeforeSaveParams<T>): Promise<T> => {
     return data;
@@ -68,14 +69,30 @@ export abstract class BaseService<T> implements IBaseService<T> {
   find = async ({ queryKey }: QueryFunctionContext): Promise<T> => {
     const uuid = queryKey[1] as string;
 
-    const { data } = await api.get<T>(`${this.url}/${uuid}`, {
-      headers: this.getHeaders(),
-    });
-    return data;
+    if (uuid) {
+      const { data } = await api.get<T>(`${this.url}/${uuid}`, {
+        headers: this.getHeaders(),
+      });
+      return data;
+    } else {
+      return {} as Promise<T>;
+    }
+  };
+
+  getOptions = async (): Promise<OptionItem[]> => {
+    try {
+      const headers = this.getHeaders(); // Obtenha os cabeçalhos antes de fazer a chamada
+      const { data } = await api.get<OptionItem[]>(`${this.url}/option-items`, {
+        headers,
+      });
+      return data;
+    } catch (error) {
+      console.error("Erro ao obter as opções:", error);
+      return [];
+    }
   };
 
   async create(data: T): Promise<T> {
-    console.log(data);
     const response: AxiosResponse<T> = await api.post<T>(this.url, data, {
       headers: this.getHeaders(),
     });

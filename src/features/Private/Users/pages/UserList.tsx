@@ -7,9 +7,11 @@ import { CrudTable } from "../../../../core/components/molecules/CrudTable";
 import { StatusBody } from "../../../../core/components/templates/data/StatusBodyTemplate";
 import UserService from "../../../../services/UserService";
 import { useNavigate } from "react-router-dom";
+import { useRoute } from "../../../../core/context/RouteContext";
 
 export const UserList = () => {
   const queryClient = useQueryClient();
+  const { toast } = useRoute();
   const navigate = useNavigate();
   const { isLoading, data: contacts } = useQuery("list-users", () =>
     UserService.getAll()

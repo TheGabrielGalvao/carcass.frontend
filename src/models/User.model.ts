@@ -1,10 +1,10 @@
 import { ERegisterStatus } from "../core/util/enum/EStatus";
 
 export type UserModel = {
-  uuid: string;
+  uuid?: string;
   name: string;
   email: string;
-  password: string;
-  status: ERegisterStatus;
+  password?: string;
+  status?: ERegisterStatus;
   profileUuid?: string;
 };

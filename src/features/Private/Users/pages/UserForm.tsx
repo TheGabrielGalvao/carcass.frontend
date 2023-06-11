@@ -12,11 +12,14 @@ import { BaseForm } from "../../../../core/components/molecules/BaseForm";
 import { TextInput } from "../../../../core/components/molecules";
 import { userValidation } from "../../Users/validations";
 import { ERegisterStatus } from "../../../../core/util/enum/EStatus";
+import { useRoute } from "../../../../core/context/RouteContext";
+import { Check } from "phosphor-react";
 
 export const UserForm = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { uuid } = useParams();
+  const { handleSetToast } = useRoute();
+  const { uuid } = useParams<{ uuid?: string }>();
   const { data: userData } = useQuery(["user", uuid], UserService.find, {
     retry: false,
     enabled: uuid !== null && uuid !== "",
@@ -39,6 +42,12 @@ export const UserForm = () => {
       await UserService.create(objectSave);
     }
     queryClient.invalidateQueries(["list-users"]);
+
+    handleSetToast({
+      icon: <Check weight="bold" />,
+      message: "Dados salvos com sucesso!",
+      type: "success",
+    });
 
     navigate("../list");
   };
