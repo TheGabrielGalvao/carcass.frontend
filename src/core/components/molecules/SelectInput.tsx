@@ -55,6 +55,7 @@ export const SelectInput = ({
           onChange={handleChange}
           options={options}
           value={props.value}
+          register={register}
           {...props}
         />
       </SelectInputElement.Root>

@@ -13,11 +13,14 @@ import { BaseForm } from "../../../../core/components/molecules/BaseForm";
 import { TextInput } from "../../../../core/components/molecules";
 import { ERegisterStatus } from "../../../../core/util/enum/EStatus";
 import { userProfileValidation } from "../validations";
+import { Check } from "phosphor-react";
+import { useRoute } from "../../../../core/context/RouteContext";
 
 export const UserProfileForm = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { uuid } = useParams();
+  const { uuid } = useParams<{ uuid?: string }>();
+  const { handleSetToast } = useRoute();
   const { data: userProfileData } = useQuery(
     ["userProfile", uuid],
     UserProfileService.find,
@@ -42,6 +45,12 @@ export const UserProfileForm = () => {
       await UserProfileService.create(objectSave);
     }
     queryClient.invalidateQueries(["list-userProfiles"]);
+
+    handleSetToast({
+      icon: <Check weight="bold" />,
+      message: "Dados salvos com sucesso!",
+      type: "success",
+    });
 
     navigate("../profile/list");
   };

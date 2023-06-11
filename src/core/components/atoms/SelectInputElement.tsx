@@ -31,6 +31,7 @@ interface SelectInputInputProps
   placeholder?: string;
   icon?: ReactNode;
   helperText?: string;
+  register?: any;
   onChange?: ChangeEventHandler<HTMLSelectElement>;
 }
 
@@ -44,6 +45,7 @@ const SelectInputInput = ({
       className="w-full h-full pl-2 py-4 rounded-lg border-none border-0 outline-0 outline-none bg-transparent flex-1 text-gray-600 text-xs placeholder:text-gray-300"
       onChange={onChange}
       {...props}
+      {...props.register}
     >
       <option value="" className="py-4">
         Selecionar

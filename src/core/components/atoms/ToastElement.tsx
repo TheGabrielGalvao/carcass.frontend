@@ -60,7 +60,7 @@ export const ToastElement = ({
         )}
       >
         <p className="flex items-center justify-between gap-2 w-full text-primary-700">
-          <span className="flex gap-2">
+          <span className="flex gap-2 items-center ">
             {icon}
             <TextElement size="sm">{message}</TextElement>
           </span>

@@ -93,6 +93,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
   };
 
   async create(data: T): Promise<T> {
+    console.log(data);
     const response: AxiosResponse<T> = await api.post<T>(this.url, data, {
       headers: this.getHeaders(),
     });

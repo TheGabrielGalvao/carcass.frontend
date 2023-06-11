@@ -14,6 +14,8 @@ import { userValidation } from "../../Users/validations";
 import { ERegisterStatus } from "../../../../core/util/enum/EStatus";
 import { useRoute } from "../../../../core/context/RouteContext";
 import { Check } from "phosphor-react";
+import { SelectInput } from "../../../../core/components/molecules/SelectInput";
+import UserProfileService from "../../../../services/UserProfileService";
 
 export const UserForm = () => {
   const navigate = useNavigate();
@@ -26,6 +28,16 @@ export const UserForm = () => {
     refetchOnWindowFocus: false,
   });
 
+  const { data: userProfileData } = useQuery(
+    ["userProfile"],
+    UserProfileService.getOptions,
+    {
+      retry: false,
+      enabled: uuid !== null && uuid !== "",
+      refetchOnWindowFocus: false,
+    }
+  );
+
   const handleSubmitUser = async (data: UserModel) => {
     if (uuid) {
       const objectSave: UserModel = {
@@ -37,7 +49,8 @@ export const UserForm = () => {
       const objectSave: UserModel = {
         ...data,
         status: ERegisterStatus.ACTIVE,
-        profileUuid: "3F7EBD24-C159-4951-A49B-14702DEFBADC",
+        // password: "1234",
+        // profileUuid: "3F7EBD24-C159-4951-A49B-14702DEFBADC",
       };
       await UserService.create(objectSave);
     }
@@ -79,14 +92,23 @@ export const UserForm = () => {
               placeholder="Email"
               className="w-full"
             />
-            <TextInput
+            <SelectInput
+              type="select"
+              id="profileUuid"
+              name="profileUuid"
+              label="Perfil de Acesso"
+              placeholder="Perfil de Acesso"
+              className="w-full"
+              options={userProfileData}
+            />
+            {/* <TextInput
               type="password"
               id="password"
               name="password"
               label="Senha"
               placeholder="Senha"
               className="w-full"
-            />
+            /> */}
           </div>
           <div className="flex gap-2 w-full items-center justify-center"></div>
           <div className="flex justify-end w-full gap-2">
