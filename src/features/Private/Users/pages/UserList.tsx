@@ -8,11 +8,13 @@ import { StatusBody } from "../../../../core/components/templates/data/StatusBod
 import UserService from "../../../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { useRoute } from "../../../../core/context/RouteContext";
+import { Check } from "phosphor-react";
 
 export const UserList = () => {
   const queryClient = useQueryClient();
   const { toast } = useRoute();
   const navigate = useNavigate();
+  const { handleSetToast } = useRoute();
   const { isLoading, data: contacts } = useQuery("list-users", () =>
     UserService.getAll()
   );
@@ -48,6 +50,12 @@ export const UserList = () => {
 
     await UserService.remove(uuid);
     queryClient.invalidateQueries("list-users");
+
+    handleSetToast({
+      icon: <Check weight="bold" />,
+      message: "Dados deletados com sucesso!",
+      type: "success",
+    });
 
     navigate("../list");
   };

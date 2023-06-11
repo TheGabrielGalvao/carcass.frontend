@@ -6,8 +6,11 @@ import { CrudTable } from "../../../../core/components/molecules/CrudTable";
 import { StatusBody } from "../../../../core/components/templates/data/StatusBodyTemplate";
 import UserProfileService from "../../../../services/UserProfileService";
 import { useNavigate } from "react-router-dom";
+import { useRoute } from "../../../../core/context/RouteContext";
+import { Check } from "phosphor-react";
 
 export const UserProfileList = () => {
+  const { handleSetToast } = useRoute();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { isLoading, data: contacts } = useQuery("list-userProfiles", () =>
@@ -40,7 +43,11 @@ export const UserProfileList = () => {
     await UserProfileService.remove(uuid);
     queryClient.invalidateQueries("list-userProfiles");
 
-    // navigate("../profile/list");
+    handleSetToast({
+      icon: <Check weight="bold" />,
+      message: "Dados deletados com sucesso!",
+      type: "success",
+    });
   };
 
   return (
