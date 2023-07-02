@@ -2,7 +2,6 @@ import { Funnel, PencilSimple, Plus, Trash } from "phosphor-react";
 import { ButtonElement, HeadingElement, TextElement } from "../atoms";
 import { useNavigate } from "react-router-dom";
 import { BasicTable, Column } from "../atoms/BasicTable";
-import { useRoute } from "../../context/RouteContext";
 
 interface CrudTableProps {
   title: string;
@@ -22,7 +21,6 @@ export const CrudTable = ({
   routePrefix,
 }: CrudTableProps) => {
   const navigate = useNavigate();
-  const { handleSetToast } = useRoute();
   return (
     <div className="flex flex-col w-full">
       <div className="flex max-w-full gap-4 justify-between items-center py-4 px-10">

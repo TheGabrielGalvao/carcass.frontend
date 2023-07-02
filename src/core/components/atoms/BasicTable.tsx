@@ -132,7 +132,7 @@ export const BasicTable = ({
                     {columns.map((column) => (
                       <td
                         key={column.name}
-                        className="whitespace-nowrap px-6 py-1 font-medium text-gray-500 px-6 py-4"
+                        className="whitespace-nowrap px-6 py-1 font-medium text-gray-500"
                       >
                         {column.bodyShape
                           ? column.bodyShape(item)

@@ -2,17 +2,16 @@ import { takeRight } from "lodash";
 import { Column } from "../../../../core/components/atoms/BasicTable";
 import { useQuery, useQueryClient } from "react-query";
 import { CardElement, HeadingElement } from "../../../../core/components/atoms";
-import ContactService from "../../../../services/ContactService";
 import { CrudTable } from "../../../../core/components/molecules/CrudTable";
 import { StatusBody } from "../../../../core/components/templates/data/StatusBodyTemplate";
 import UserService from "../../../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { useRoute } from "../../../../core/context/RouteContext";
 import { Check } from "phosphor-react";
+import { UserModel } from "../../../../models/User.model";
 
 export const UserList = () => {
   const queryClient = useQueryClient();
-  const { toast } = useRoute();
   const navigate = useNavigate();
   const { handleSetToast } = useRoute();
   const { isLoading, data: contacts } = useQuery("list-users", () =>
@@ -21,18 +20,22 @@ export const UserList = () => {
 
   const list = takeRight(contacts, 10);
 
+  const UserBody = (row: UserModel) => {
+    return (
+      <div className="flex flex-col">
+        <span className="font-bold text-gray-800">{row.name}</span>
+        <span className="text-xs">{row.email}</span>
+      </div>
+    );
+  };
+
   const columnList: Column[] = [
     {
       name: "name",
-      label: "Nome",
+      label: "Usuário",
       sortable: true,
       order: 2,
-    },
-    {
-      name: "email",
-      label: "Email",
-      sortable: true,
-      order: 3,
+      bodyShape: UserBody,
     },
     {
       name: "status",

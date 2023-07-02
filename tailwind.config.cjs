@@ -67,6 +67,6 @@ module.exports = {
       "2xl": 32,
     },
   },
-  plugins: [require("tw-elements/dist/plugin.cjs")],
+  plugins: [],
   darkMode: "class",
 };
